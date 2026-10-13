@@ -1,4 +1,4 @@
-import os, io, base64, time, unittest, random, string, re, tempfile
+﻿import os, io, base64, time, unittest, random, string, re, tempfile
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -99,6 +99,7 @@ class T(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         opts = webdriver.ChromeOptions()
+        opts.add_argument('--headless=new')
     
         opts.add_argument("--disable-gpu")
         opts.add_argument("--window-size=1366,900")
@@ -161,7 +162,7 @@ class T(unittest.TestCase):
         fill_input(self.d, u, ADMIN_USER); fill_input(self.d, p, ADMIN_PASS)
         click_any(self.d, ["input[type='submit']","button[type='submit']"])
         try: self.w.until(EC.presence_of_element_located((By.ID,"content-main"))); pause()
-        except Exception: self.skipTest("Credenciales admin inválidas"); return
+        except Exception: self.skipTest("Credenciales admin invÃ¡lidas"); return
 
        
         plist = [a for a in self.d.find_elements(By.CSS_SELECTOR,"a") if "product" in (a.get_attribute("href") or "").lower()]
@@ -211,7 +212,7 @@ class T(unittest.TestCase):
     
     def test_03_carrito(self):
         if not open_first(self.d, ["/catalogo/","/tienda/"]):
-            self.skipTest("Sin catálogo/tienda"); return
+            self.skipTest("Sin catÃ¡logo/tienda"); return
         link = first(self.d, ["a[href*='/producto/']", ".product a", "a.ver-producto"], 10)
         if not link: self.skipTest("Sin productos listados"); return
         link.click(); pause()
@@ -224,11 +225,11 @@ class T(unittest.TestCase):
             "button.add-to-cart",".add-to-cart",
             "form[action*='carrito'] button","[name='agregar']"
         ])
-        if not added: self.skipTest("Sin botón agregar"); return
+        if not added: self.skipTest("Sin botÃ³n agregar"); return
 
         self.d.get(f"{BASE}/carrito/"); pause()
         row = first(self.d, ["#tablaCarrito tr",".cart-item","table tr"], 10)
-        self.assertIsNotNone(row, "Carrito vacío tras agregar")
+        self.assertIsNotNone(row, "Carrito vacÃ­o tras agregar")
 
         qty = first(self.d, ["#tablaCarrito input[type='number']","input[name*='cantidad']"], 3)
         if qty:
@@ -246,7 +247,7 @@ class T(unittest.TestCase):
             "#tablaCarrito .btn-danger","button[data-action='remove']",
             "button.remove","a.btn-danger","button.btn-danger"
         ]):
-            self.skipTest("Sin botón eliminar en carrito")
+            self.skipTest("Sin botÃ³n eliminar en carrito")
 
    
     def test_04_checkout(self):
@@ -281,9 +282,9 @@ class T(unittest.TestCase):
 
 
     def test_06_buscador(self):
-        self.assertTrue(open_first(self.d, ["/tienda/aceite/"]), "Sin búsqueda válida")
+        self.assertTrue(open_first(self.d, ["/tienda/aceite/"]), "Sin bÃºsqueda vÃ¡lida")
         pause()
-        self.assertTrue(open_first(self.d, [f"/tienda/{rs(5)}/"]), "Sin búsqueda inexistente")
+        self.assertTrue(open_first(self.d, [f"/tienda/{rs(5)}/"]), "Sin bÃºsqueda inexistente")
         pause()
         click_any(self.d, [".pagination a","[data-filter]","select[name*='categoria'] option[value]"]) or True
         pause()
@@ -324,17 +325,17 @@ class T(unittest.TestCase):
         fill_input(self.d, u, ADMIN_USER); fill_input(self.d, p, ADMIN_PASS)
         click_any(self.d, ["input[type='submit']"]); pause()
         try: self.w.until(EC.presence_of_element_located((By.ID,"content-main"))); pause()
-        except Exception: self.skipTest("Credenciales admin inválidas"); return
+        except Exception: self.skipTest("Credenciales admin invÃ¡lidas"); return
 
         link = None
         for a in self.d.find_elements(By.CSS_SELECTOR,"a"):
             href = (a.get_attribute("href") or "").lower()
             if "distrib" in href:
                 link = a; break
-        if not link: self.skipTest("Módulo distribuidores no disponible"); return
+        if not link: self.skipTest("MÃ³dulo distribuidores no disponible"); return
         link.click(); pause()
 
-        click_any(self.d, ["a[href$='/add/']","a.addlink"]) or self.skipTest("Sin botón add distribuidor")
+        click_any(self.d, ["a[href$='/add/']","a.addlink"]) or self.skipTest("Sin botÃ³n add distribuidor")
         type_ok = False
         for css, val in [
             ("input[name*='nombre'],input[name*='name']","Distribuidor "+rs(4)),
@@ -363,7 +364,7 @@ class T(unittest.TestCase):
         pause(0.3)
         self.assertTrue(True)
 
-    # ---------- 11) Gestión de Usuarios C1/C2 (admin) ----------
+    # ---------- 11) GestiÃ³n de Usuarios C1/C2 (admin) ----------
     def test_11_usuarios_admin(self):
         if not (ADMIN_USER and ADMIN_PASS): self.skipTest("Sin credenciales admin"); return
         self.d.get(f"{BASE}/admin/login/?next=/admin/"); pause()
@@ -372,9 +373,9 @@ class T(unittest.TestCase):
         fill_input(self.d, u, ADMIN_USER); fill_input(self.d, p, ADMIN_PASS)
         click_any(self.d, ["input[type='submit']"]); pause()
         try: self.w.until(EC.presence_of_element_located((By.ID,"content-main"))); pause()
-        except Exception: self.skipTest("Credenciales admin inválidas"); return
+        except Exception: self.skipTest("Credenciales admin invÃ¡lidas"); return
         if not click_any(self.d, ["a[href*='/auth/user/']"]): self.skipTest("Modelo User no accesible"); return
-        click_any(self.d, ["a[href$='/add/']"]) or self.skipTest("Sin botón add user")
+        click_any(self.d, ["a[href$='/add/']"]) or self.skipTest("Sin botÃ³n add user")
         try:
             el = self.d.find_element(By.CSS_SELECTOR, "input[name='username']"); fill_input(self.d, el, f"al{rs(5)}")
             p1 = self.d.find_element(By.CSS_SELECTOR, "input[name='password1']"); fill_input(self.d, p1, "Passw0rd!x")
@@ -385,9 +386,9 @@ class T(unittest.TestCase):
         pause(0.6)
         self.assertTrue(True)
 
-    # ---------- 12) Catálogo C1/C2 ----------
+    # ---------- 12) CatÃ¡logo C1/C2 ----------
     def test_12_catalogo(self):
-        if not open_first(self.d, ["/catalogo/"]): self.skipTest("Sin catálogo"); return
+        if not open_first(self.d, ["/catalogo/"]): self.skipTest("Sin catÃ¡logo"); return
         click_any(self.d, ["select[name*='categoria'] option[value]","[data-filter*='categoria']"]) or True
         pause(0.3)
         click_any(self.d, [".sort select option[value]", ".ordenar select option[value]"]) or True
@@ -407,7 +408,7 @@ class T(unittest.TestCase):
     def test_14_dashboard_export(self):
         if not open_first(self.d, ["/dashboard/"]): self.skipTest("Sin dashboard"); return
         if not click_any(self.d, [".export-pdf","#export-pdf","a[href*='export'][href*='pdf']",".btn-export"]):
-            self.skipTest("Sin acción export PDF")
+            self.skipTest("Sin acciÃ³n export PDF")
         pause(0.6)
         self.assertTrue(True)
 
