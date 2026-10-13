@@ -1,3 +1,4 @@
+
 name: Build
 
 on:
@@ -34,6 +35,9 @@ jobs:
 
       - name: Run Django checks
         run: python manage.py check
+
+      - name: Apply database migrations
+        run: python manage.py migrate --noinput
 
       - name: Start Django server
         run: |
