@@ -16,3 +16,13 @@ __pycache__/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Coverage reports
+.coverage
+.coverage.*
+htmlcov/
+
+# Test artifacts
+.pytest_cache/
+
+coverage.xml
