@@ -1,6 +1,12 @@
-asgiref==3.8.1
+﻿asgiref==3.8.1
 Django==5.2.1
 djangorestframework==3.16.0
 sqlparse==0.5.3
 Pillow==11.2.1
 phonenumbers==9.0.6
+django-jazzmin
+transbank-sdk
+Faker
+selenium
+webdriver-manager
+python-dotenv

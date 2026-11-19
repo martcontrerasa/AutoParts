@@ -1,0 +1,38 @@
+﻿# Git
+.git
+.gitignore
+
+# Entornos virtuales
+.venv/
+venv/
+
+# Variables y secretos
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Base de datos local
+data/
+*.sqlite3
+*.db
+
+# Cobertura y pruebas
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.pytest_cache/
+
+# Archivos generados
+staticfiles/
+*.log
+
+# Sistema operativo y editor
+.DS_Store
+Thumbs.db
+.vscode/
