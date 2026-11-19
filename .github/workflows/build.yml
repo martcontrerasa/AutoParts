@@ -90,5 +90,5 @@ jobs:
           context: .
           push: true
           tags: |
-            martcontrerasa/autoparts:latest
-            martcontrerasa/autoparts:${{ github.sha }}
+            martcontreras/autoparts:latest
+            martcontreras/autoparts:${{ github.sha }}
