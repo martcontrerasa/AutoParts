@@ -37,6 +37,9 @@ jobs:
       - name: Run Django checks
         run: python manage.py check
 
+      - name: Create database directory
+        run: mkdir -p data
+
       - name: Apply database migrations
         run: python manage.py migrate --noinput
 
